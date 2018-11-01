@@ -6,6 +6,27 @@ It requires python 2.7, and the same dependencies relied on by as5-inferno.py (p
 and cracked.txt, containing numbered passwords, one per line, in the format "NUMBER:CRACKEDPASSWORD", where NUMBER is the position of the
 hash in the list of hashes in the level JSON, indexed at one, and CRACKEDPASSWORD is the cracked value of the hash.
 
+### manager.py
+Helps with basic file/level management. Functionality will be tuned and expanded during the duration of the project.
+
+Naming conventions:
+- Let each level be named (just to keep things neat) - inferno_ball_1.json, inferno_ball_2.json, etc
+
+Args for InfernoManager(arg1,arg2)
+- First arg - level file
+- Second arg - level integer (for file naming)
+  
+#### Usage
+Import and instanciate
+```
+from manager import InfernoManager
+i = InfernoManager('inferno_ball_1.json',1)
+```
+Call funtions
+```
+i.export_hashes_to_files()
+```
+
 ### Level 1
 Contained 5-8 character passwords derived from rockyou.txt, with a K of roughly 35 and N of 46
 ### Level 2
