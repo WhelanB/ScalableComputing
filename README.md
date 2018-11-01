@@ -26,6 +26,16 @@ Call funtions
 ```
 i.export_hashes_to_files()
 ```
+#### Available functions
+All available functions are listed in manager.py script, under PUBLIC BLOCK
+
+So far
+```
+export_hashes_to_files()
+get_ciphertext()
+get_hashes()
+get_shares()
+```
 
 ### Level 1
 Contained 5-8 character passwords derived from rockyou.txt, with a K of roughly 35 and N of 46
