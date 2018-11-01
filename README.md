@@ -9,9 +9,6 @@ hash in the list of hashes in the level JSON, indexed at one, and CRACKEDPASSWOR
 ### manager.py
 Helps with basic file/level management. Functionality will be tuned and expanded during the duration of the project.
 
-Naming conventions:
-- Let each level be named (just to keep things neat) - inferno_ball_1.json, inferno_ball_2.json, etc
-
 Args for InfernoManager(arg1,arg2)
 - First arg - level file
 - Second arg - level integer (for file naming)
@@ -32,6 +29,7 @@ All available functions are listed in manager.py script, under PUBLIC BLOCK
 So far
 ```
 export_hashes_to_files()
+export_indexed_hashes()
 get_ciphertext()
 get_hashes()
 get_shares()
