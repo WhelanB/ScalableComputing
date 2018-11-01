@@ -14,6 +14,16 @@ Args for InfernoManager(arg1,arg2)
 - Second arg - level integer (for file naming)
   
 #### Usage
+Activate python shell by typing
+```
+python
+```
+
+You should see
+```
+>>>
+```
+
 Import and instanciate
 ```
 from manager import InfernoManager
