@@ -65,6 +65,7 @@ class InfernoManager():
         print('sha512: %i' % len_sha512)
         print('argon: %i' % len_argon)
 
+
     # PUBLIC BLOCK
     # In this function be careful with naming conventions
     def export_hashes_to_files(self):
@@ -83,6 +84,24 @@ class InfernoManager():
             with open(filepath,'w') as f:
                 for item in hash_array:
                     f.write("%s\n" % item)
+    
+    def export_indexed_hashes(self):
+        filename = 'indexed_hashes_' + str(self.level_num) + '.hashes'
+        filepath = os.path.join(self.dir, filename) 
+        hashes = self.get_hashes()
+
+        # get number of digits to use
+        num_digits = len(str(len(hashes)))
+
+        dest_file = open(filepath,'w')
+        
+        i = 1
+        for item in hashes:
+            hash_id = str(i).zfill(num_digits)
+            dest_file.write('{}:{}\n'.format(hash_id,item))
+            i += 1
+
+        dest_file.close()
 
     # Getters
     def get_ciphertext(self):
