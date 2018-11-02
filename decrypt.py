@@ -1,5 +1,37 @@
 #!/usr/bin/python
+# 
+# Copyright (C) 2018, stephen.farrell@cs.tcd.ie
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 
+# Generate the student and marking file for one student for cs7ns1/as5
+
+import os,sys,argparse,tempfile,shutil
+
+# notes on secretsharing module below:
+# - sudo -H pip install secret-sharing is needed first
+# - secretsharing uses /dev/random by default, which is slow as it
+#   gathers entropy from OS events - that's not only slow, but can
+#   also frequently block, to get around this edit the source and
+#   change it to use /dev/urandom which won't block
+#   source to edit for me was:
+#   /usr/local/lib/python2.7/dist-packages/secretsharing/entropy.py  
 import secretsharing as sss
 
 # for JSON output
@@ -89,7 +121,9 @@ def pwds_shares_to_secret(kpwds,kinds,diffs):
         recover shamir secret
     '''
     shares=[]
+    print "function"
     for i in range(0,len(kpwds)):
+        print kpwds[i]
         shares.append(pxor(kpwds[i],diffs[kinds[i]-1]))
     secret=sss.SecretSharer.recover_secret(shares)
     return secret
@@ -114,8 +148,11 @@ pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s)
 unpad = lambda s: s[:-ord(s[len(s) - 1:])]
 
 def decrypt(enc, password):
+    print "de"
     private_key = password
+    print "decry"
     enc = base64.b64decode(enc)
+    print "decrypt"
     iv = enc[:16]
     cipher = AES.new(private_key, AES.MODE_CBC, iv)
     return unpad(cipher.decrypt(enc[16:]))
@@ -132,41 +169,54 @@ def encrypt(raw, key):
 jsonpickle.set_encoder_options('json', sort_keys=True, indent=2)
 jsonpickle.set_encoder_options('simplejson', sort_keys=True, indent=2)
 
+# defaults for some command line arguments (CLAs)
+depth=10 # level of nesting
+minppl=10 # ppl = passwords per level - we'll randomly select in this range, unless CLA overrides
+maxppl=20
+skips=0 # how many passwords from file to skip
+
+# derived parameters - mix/max passwords per level needed
+mintpl=(minppl/10) # tpl = threshold per level - we'll randomly select in this range
+if mintpl < 2: # can't have <2 shares:-)
+    mintpl=2
+maxtpl=(maxppl/2)
+
 try:
     secrets = []
     kinds = []
-    lpwds = [] 
-    f = open('shares.txt', 'r')
-    shares = f.readlines()
-    f.close()
+    lpwds = []
+    shares = []
+    with open("shares.txt", "r") as s:
+        for line in s:
+            print line
+            shares.append(line.rstrip())
     with open("cracked.txt", "r") as f:
         for line in f:
             newline = line.rstrip()
+            print int(newline.split(':')[0])
+            print newline.split(':')[1]
             kinds.append(int(newline.split(':')[0]))
             lpwds.append(newline.split(':')[1])
     lthresh = len(lpwds)
+    print "here"
     levelsecret=pwds_shares_to_secret(lpwds,kinds,shares)
+    print "here"
     secrets.append(levelsecret)
+    print "here"
     csname="output.secrets"
-    path=os.path.join(tmpdir,csname)
+    print "here"
     cryptpath="crypto.txt"
+    print levelsecret
+    print "here"
     with open(cryptpath, "r") as crypto:
         encrypted = crypto.read()
-        print decrypt(encrypted, levelsecret.zfill(32).decode('hex'))
+        print "read"
+        print levelsecret.zfill(32).decode("hex")
+        decrypt(encrypted, levelsecret.zfill(32).decode('hex'))
     crypto.close()
-        
-    with open(path,"w") as tmpf:
-        for sec in secrets:
-            tmpf.write(sec+"\n")
-    tmpf.close()
-    shutil.move(path,destdir+"/"+csname)
+    print "done"
 except Exception as e:
-    print >>sys.stderr, "Exception doing: " + args.username + " " + str(e)
+    print >>sys.stderr,  str(e)
     sys.exit(5)
-finally:
-    # clean up
-    os.umask(saved_umask)
-    shutil.rmtree(tmpdir,ignore_errors=True)
-
 # success return, we're all done!
 sys.exit(0)
