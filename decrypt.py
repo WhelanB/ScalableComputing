@@ -50,6 +50,7 @@ from random import randrange
 import base64
 from Crypto.Cipher import AES
 from Crypto import Random
+from manager import InfernoManager
 
 # our cs7ns1-specific functions for shamir-like sharing
 
@@ -121,9 +122,11 @@ def pwds_shares_to_secret(kpwds,kinds,diffs):
         recover shamir secret
     '''
     shares=[]
-    print "function"
     for i in range(0,len(kpwds)):
-        print kpwds[i]
+	print "*****"
+	print kpwds[i]
+	print str(kinds[i])
+	print diffs[kinds[i]-1]
         shares.append(pxor(kpwds[i],diffs[kinds[i]-1]))
     secret=sss.SecretSharer.recover_secret(shares)
     return secret
@@ -148,11 +151,8 @@ pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s)
 unpad = lambda s: s[:-ord(s[len(s) - 1:])]
 
 def decrypt(enc, password):
-    print "de"
     private_key = password
-    print "decry"
     enc = base64.b64decode(enc)
-    print "decrypt"
     iv = enc[:16]
     cipher = AES.new(private_key, AES.MODE_CBC, iv)
     return unpad(cipher.decrypt(enc[16:]))
@@ -186,35 +186,28 @@ try:
     kinds = []
     lpwds = []
     shares = []
+    i = InfernoManager('level2.json', 2)
     with open("shares.txt", "r") as s:
         for line in s:
-            print line
-            shares.append(line.rstrip())
+            #print line
+            shares.append(line)
     with open("cracked.txt", "r") as f:
         for line in f:
             newline = line.rstrip()
-            print int(newline.split(':')[0])
-            print newline.split(':')[1]
-            kinds.append(int(newline.split(':')[0]))
+            #print int(newline.split(':')[0])
+            #print newline.split(':')[1]
+            kinds.append(int(newline.split(':')[0], 10))
             lpwds.append(newline.split(':')[1])
     lthresh = len(lpwds)
-    print "here"
     levelsecret=pwds_shares_to_secret(lpwds,kinds,shares)
-    print "here"
     secrets.append(levelsecret)
-    print "here"
-    csname="output.secrets"
-    print "here"
-    cryptpath="crypto.txt"
-    print levelsecret
-    print "here"
-    with open(cryptpath, "r") as crypto:
-        encrypted = crypto.read()
-        print "read"
-        print levelsecret.zfill(32).decode("hex")
-        decrypt(encrypted, levelsecret.zfill(32).decode('hex'))
-    crypto.close()
-    print "done"
+    print "Secret: " + levelsecret
+    #might want to comment this out if it prints trash
+    decrypted = decrypt(i.get_ciphertext(), (levelsecret.zfill(32)).decode('hex'))
+    if "cipher" in decrypted:
+        print decrypted
+    else:
+        print "Decryption failed"
 except Exception as e:
     print >>sys.stderr,  str(e)
     sys.exit(5)
