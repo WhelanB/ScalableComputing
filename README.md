@@ -66,4 +66,5 @@ Level 5 consisted of hashed submitty usernames
 ### Level 6
 Level 6 is the same as level 1 - rockyou.txt, with N of 253
 ### Level 7
+Level 7 is list of keyboard characters- 8 digit pattern
 
