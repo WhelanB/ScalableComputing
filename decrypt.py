@@ -186,7 +186,8 @@ try:
     kinds = []
     lpwds = []
     shares = []
-    i = InfernoManager('level2.json', 2)
+    currentLevel = 6
+    i = InfernoManager('level.json', currentLevel)
     with open("shares.txt", "r") as s:
         for line in s:
             #print line
