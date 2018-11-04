@@ -164,7 +164,9 @@ def encrypt(raw, key):
     return base64.b64encode(iv + cipher.encrypt(raw))
 
 # main code...
-
+parser = argparse.ArgumentParser()
+parser.add_argument("inferno", help="Path to the InfernoBall JSON")
+args = parser.parse_args()
 # magic JSON incantation (I forget why, might not even be needed here:-)
 jsonpickle.set_encoder_options('json', sort_keys=True, indent=2)
 jsonpickle.set_encoder_options('simplejson', sort_keys=True, indent=2)
@@ -187,7 +189,7 @@ try:
     lpwds = []
     shares = []
     currentLevel = 6
-    i = InfernoManager('level.json', currentLevel)
+    i = InfernoManager(args.inferno, currentLevel)
     with open("shares.txt", "r") as s:
         for line in s:
             #print line
