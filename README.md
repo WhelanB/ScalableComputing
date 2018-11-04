@@ -2,9 +2,12 @@
 
 ### Decrypt.py
 Decrypt.py can be used to decrypt the ciphertext and unlock the next Inferno Ball level.
-It requires python 2.7, and the same dependencies relied on by as5-inferno.py (passlib, secretsharing), and reads two files, "shares.txt", containing the shares included in the JSON, with one share per line,
-and cracked.txt, containing numbered passwords, one per line, in the format "NUMBER:CRACKEDPASSWORD", where NUMBER is the position of the
-hash in the list of hashes in the level JSON, indexed at one, and CRACKEDPASSWORD is the cracked value of the hash.
+It requires python 2.7, and the same dependencies relied on by as5-inferno.py (passlib, secretsharing)
+
+It requires the following files to be in the execution directory:
+- shares.txt - taken from the corresponding LevelN folder, a line-separated list of shares for this level
+- cracked.txt - a list of cracked passwords with the numerical position data from the json (XXX:PASSWORD)
+- level.json - the current level JSON file from which to retrieve the ciphertext
 
 ### manager.py
 Helps with basic file/level management. Functionality will be tuned and expanded during the duration of the project.
