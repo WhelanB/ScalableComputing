@@ -7,7 +7,11 @@ It requires python 2.7, and the same dependencies relied on by as5-inferno.py (p
 It requires the following files to be in the execution directory:
 - shares.txt - taken from the corresponding LevelN folder, a line-separated list of shares for this level
 - cracked.txt - a list of cracked passwords with the numerical position data from the json (XXX:PASSWORD)
-- level.json - the current level JSON file from which to retrieve the ciphertext
+
+It can then be executed as follows:
+```
+python decrypt.py levelN.json
+```
 
 ### manager.py
 Helps with basic file/level management. Functionality will be tuned and expanded during the duration of the project.
