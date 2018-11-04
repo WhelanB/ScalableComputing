@@ -55,7 +55,7 @@ in either position 3, 4, or 5 (choo5, ohch3, aeph0, ya1ai)
 ### Level 4
 Level 4 consisted of a wordlist generated from running cewl on scss.tcd.ie and tcd.ie
 ### Level 5
-Level 5 consisted of hashes submitty usernames
+Level 5 consisted of hashed submitty usernames
 ### Level 6
 Level 6 is the same as level 1 - rockyou.txt
 ### Level 7
