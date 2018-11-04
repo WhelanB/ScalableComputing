@@ -55,7 +55,7 @@ get_shares()
 ### Level 1
 Contained 5-8 character passwords derived from rockyou.txt, with a K of roughly 35 and N of 46
 ### Level 2
-Seems to contain two four-letter words concatenated, with currently unknown K and N of 251.
+Seems to contain two four-letter words concatenated, with N of 251.
 ### Level 3
 Level 3 is made up of values from executing "pwgen -A 5". These are 5 letter words with at least one vowel, and exactly 1 digit
 in either position 3, 4, or 5 (choo5, ohch3, aeph0, ya1ai)
@@ -64,6 +64,6 @@ Level 4 consisted of a wordlist generated from running cewl on scss.tcd.ie and t
 ### Level 5
 Level 5 consisted of hashed submitty usernames
 ### Level 6
-Level 6 is the same as level 1 - rockyou.txt
+Level 6 is the same as level 1 - rockyou.txt, with N of 253
 ### Level 7
 
