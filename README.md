@@ -52,4 +52,11 @@ Seems to contain two four-letter words concatenated, with currently unknown K an
 ### Level 3
 Level 3 is made up of values from executing "pwgen -A 5". These are 5 letter words with at least one vowel, and exactly 1 digit
 in either position 3, 4, or 5 (choo5, ohch3, aeph0, ya1ai)
+### Level 4
+Level 4 consisted of a wordlist generated from running cewl on scss.tcd.ie and tcd.ie
+### Level 5
+Level 5 consisted of hashes submitty usernames
+### Level 6
+Level 6 is the same as level 1 - rockyou.txt
+### Level 7
 
