@@ -199,8 +199,8 @@ try:
             newline = line.rstrip()
             #print int(newline.split(':')[0])
             #print newline.split(':')[1]
-            kinds.append(int(newline.split(':')[0], 10))
-            lpwds.append(newline.split(':')[1])
+            kinds.append(int(newline.split(':', 1)[0], 10))
+            lpwds.append(newline.split(':', 1)[1])
     lthresh = len(lpwds)
     levelsecret=pwds_shares_to_secret(lpwds,kinds,shares)
     secrets.append(levelsecret)
